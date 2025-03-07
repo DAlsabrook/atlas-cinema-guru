@@ -225,7 +225,7 @@ export async function fetchGenres(): Promise<string[]> {
         SELECT DISTINCT titles.genre
         FROM titles;
       `;
-  return data.rows.map((row) => row.genre);
+  return data.rows.map((row: { genre: string }) => row.genre);
 }
 
 /**
