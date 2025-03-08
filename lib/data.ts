@@ -269,3 +269,14 @@ async function insertActivity(
     throw new Error("Failed to add activity.");
   }
 }
+
+export async function checkDbConnection(): Promise<boolean> {
+  try {
+    // Perform a simple query to check the connection
+    await sql`SELECT * FROM titles;`;
+    return true;
+  } catch (error) {
+    console.error("Database connection failed:", error);
+    return false;
+  }
+}

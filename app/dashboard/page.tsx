@@ -9,7 +9,7 @@ export default function Page() {
 
   useEffect(() => {
     async function fetchTitles() {
-      const response = await fetch('/api/favorites', {
+      const response = await fetch('http://localhost:3000/api/titles?genres=action', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -30,15 +30,7 @@ export default function Page() {
   return (
     <div>
       <div>This is the dashboard</div>
-      {/* <ul>
-        {titles.map((title) => (
-          <li key={title.id}>
-            <div>{title.title}</div>
-            <div>Released: {title.released}</div>
-            <div>Genre: {title.genre}</div>
-          </li>
-        ))}
-      </ul> */}
+        <p>{titles.length > 0 ? titles[0].title : 'No title available'}</p>
     </div>
   );
 }

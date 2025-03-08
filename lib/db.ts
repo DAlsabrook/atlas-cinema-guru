@@ -1,5 +1,8 @@
 import { Generated } from "kysely";
 import { createKysely } from "@vercel/postgres-kysely";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export interface Database {
   titles: TitlesTable;
@@ -12,7 +15,7 @@ export interface Database {
 export interface TitlesTable {
   id: Generated<string>;
   title: string;
-  synposis: string;
+  synopsis: string;
   released: number;
   genre: string;
 }
@@ -44,4 +47,6 @@ export interface ActivitiesTable {
   activity: "FAVORITED" | "WATCH_LATER";
 }
 
-export const db = createKysely<Database>();
+export const db = createKysely<Database>({
+  connectionString: process.env.POSTGRES_URL,
+});
