@@ -26,6 +26,7 @@ export type Title = {
   synopsis: string;
   released: number;
   genre: string;
+  image?: string;
 };
 
 export type UsersTitle = Title & {

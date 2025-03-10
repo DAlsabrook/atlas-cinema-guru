@@ -14,7 +14,12 @@ export async function fetchTitles(
   userEmail: string
 ) {
   try {
-    console.log(`Data-\n Page: ${page}\n minYear: ${minYear}\n maxYear: ${maxYear}\n query: ${query}\n genres: ${genres}\n userEmail: ${userEmail}\n`)
+    console.log(`Data-\n Page: ${page}\n minYear: ${minYear}\n maxYear: ${maxYear}\n query: ${query}\n genres: ${genres}\n userEmail: ${userEmail}\n`);
+
+    // Capitalize the first letter of each genre
+    const capitalizedGenres = genres.map(genre => genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase());
+    console.log("Capitalized Genres:", capitalizedGenres);
+
     // Get favorites title ids
     const { data: favoritesData, error: favoritesError } = await db
       .from('favorites')
@@ -42,7 +47,7 @@ export async function fetchTitles(
       .gte('released', minYear)
       .lte('released', maxYear)
       .ilike('title', `%${query}%`)
-      // .in('genre', genres)
+      .in('genre', capitalizedGenres)
       .order('title', { ascending: true })
       .range((page - 1) * 6, page * 6 - 1);
 

@@ -38,7 +38,7 @@ export default function Page() {
                 <p>{title.synopsis}</p>
                 <p>Released: {title.released}</p>
                 <p>Genre: {title.genre}</p>
-                <img src={`/images/${title.id}.webp`} alt={title.title} />
+                <img src={title.image} alt={title.title} />
               </li>
             ))}
           </ul>
