@@ -9,7 +9,7 @@ export default function Page() {
 
   useEffect(() => {
     async function fetchTitles() {
-      const response = await fetch('http://localhost:3000/api/titles?genres=action', {
+      const response = await fetch('/api/titles?page=1&minYear=2000&maxYear=2025&genres=drama,comedy', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -28,9 +28,23 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
-      <div>This is the dashboard</div>
-        <p>{titles.length > 0 ? titles[0].title : 'No title available'}</p>
-    </div>
-  );
+      <div>
+        <div>This is the dashboard</div>
+        {titles.length > 0 ? (
+          <ul>
+            {titles.map((title) => (
+              <li key={title.id}>
+                <h3>{title.title}</h3>
+                <p>{title.synopsis}</p>
+                <p>Released: {title.released}</p>
+                <p>Genre: {title.genre}</p>
+                <img src={`/images/${title.id}.webp`} alt={title.title} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No titles available</p>
+        )}
+      </div>
+    );
 }
