@@ -27,7 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
       <div className="flex flex-grow">
         <SideNav />
-        <div className="p-5 text-white">{children}</div>
+        <div className="w-fit text-white">{children}</div>
       </div>
     </div>
   );

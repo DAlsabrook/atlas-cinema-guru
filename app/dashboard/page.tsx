@@ -35,7 +35,7 @@ export default function Page() {
             ))}
           </div>
         ) : (
-          <p>No titles available</p>
+          <p className='m-auto'>Loading...</p>
         )}
       </div>
     );
