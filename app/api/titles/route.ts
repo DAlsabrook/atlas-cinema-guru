@@ -28,7 +28,6 @@ export const GET = auth(async (req: NextRequest) => {
   const genres = params.get("genres")?.split(",") ?? (await fetchGenres());
   const title = await fetchTitles(page, minYear, maxYear, query, genres, email);
 
-  console.log("Got titles: ", title)
   return NextResponse.json({
     title: title,
   });

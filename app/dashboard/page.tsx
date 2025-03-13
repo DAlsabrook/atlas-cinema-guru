@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Title } from '@/lib/definitions';
+import { Movie } from '@/components/Movie';
 
 
 export default function Page() {
@@ -17,10 +18,8 @@ export default function Page() {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log("Return data: ", data)
         setTitles(data.title);
         } else {
-        console.log(response);
         setTitles([]);
       }
     }
@@ -29,19 +28,12 @@ export default function Page() {
 
   return (
       <div>
-        <div>This is the dashboard</div>
         {titles.length > 0 ? (
-          <ul>
-            {titles.map((title) => (
-              <li key={title.id}>
-                <h3>{title.title}</h3>
-                <p>{title.synopsis}</p>
-                <p>Released: {title.released}</p>
-                <p>Genre: {title.genre}</p>
-                <img src={title.image} alt={title.title} />
-              </li>
+          <div className='grid grid-cols-3 m-0 p-0'>
+            {titles.map((title, key) => (
+              <Movie key={key} {...title}/>
             ))}
-          </ul>
+          </div>
         ) : (
           <p>No titles available</p>
         )}

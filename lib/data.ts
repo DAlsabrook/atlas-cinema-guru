@@ -1,4 +1,5 @@
 import { createSupabaseClient } from "./db";
+import { Title } from "./definitions";
 
 const db = await createSupabaseClient();
 
@@ -14,11 +15,8 @@ export async function fetchTitles(
   userEmail: string
 ) {
   try {
-    console.log(`Data-\n Page: ${page}\n minYear: ${minYear}\n maxYear: ${maxYear}\n query: ${query}\n genres: ${genres}\n userEmail: ${userEmail}\n`);
-
     // Capitalize the first letter of each genre
     const capitalizedGenres = genres.map(genre => genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase());
-    console.log("Capitalized Genres:", capitalizedGenres);
 
     // Get favorites title ids
     const { data: favoritesData, error: favoritesError } = await db
@@ -52,7 +50,6 @@ export async function fetchTitles(
       .range((page - 1) * 6, page * 6 - 1);
 
     if (titlesError) throw titlesError;
-    console.log(titlesData)
     return titlesData.map((row) => ({
       ...row,
       favorited: favorites.includes(row.id),
@@ -89,7 +86,7 @@ export async function fetchFavorites(page: number, userEmail: string) {
 
     if (titlesError) throw titlesError;
 
-    return titlesData.map((row) => ({
+    return titlesData.map((row: Title) => ({
       ...row,
       favorited: true,
       watchLater: watchLater.includes(row.id),
@@ -184,7 +181,7 @@ export async function fetchWatchLaters(page: number, userEmail: string) {
 
     if (titlesError) throw titlesError;
 
-    return titlesData.map((row) => ({
+    return titlesData.map((row: Title) => ({
       ...row,
       favorited: favorites.includes(row.id),
       watchLater: true,
@@ -320,7 +317,7 @@ export async function checkDbConnection(): Promise<boolean> {
     if (error) {
       console.error('Error fetching data:', error);
     } else {
-      console.log("DB is connected - Titles Data: ", data)
+      console.log("DB is connected")
     }
     return true
   } catch (error) {
