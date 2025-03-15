@@ -33,7 +33,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
       </div>
       <div className="flex h-full">
         <SideNav />
-        <div className="text-white">{children}</div>
+        <div className="text-white">{children}</div> {/** Wrap this in a context to hold movies, favorites, and watch later lists */}
       </div>
     </div>
   );
