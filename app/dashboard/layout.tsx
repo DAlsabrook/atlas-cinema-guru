@@ -1,33 +1,39 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import SideNav from "@/components/Sidenav";
-import { checkDbConnection } from '@/lib/data';
+import { Film, LogOut } from 'lucide-react';
+import { auth, signOut } from "@/auth";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const [dbConnected, setDbConnected] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    async function checkConnection() {
-      const isConnected = await checkDbConnection();
-      setDbConnected(isConnected);
-    }
-    checkConnection();
-  }, []);
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+  const user = session?.user;
 
   return (
     <div className="flex flex-col h-screen text-blue-atlas">
-      <div className="flex flex-row bg-green-light h-12">
-        Nav Bar
-        {dbConnected !== null && (
-          <div className={`ml-4 ${dbConnected ? 'text-green-500' : 'text-red-500'}`}>
-            {dbConnected ? 'DB Connected' : 'DB Connection Failed'}
-          </div>
-        )}
+      <div className="flex flex-row bg-green-light h-12 justify-between items-center">
+
+        <div className="flex items-center ml-2">
+          <Film size={18}/>
+          <h1 className="ml-1 text-2xl font-bold">Cinema Guru</h1>
+        </div>
+
+        <div className="flex items-center">
+          <p>Welcome, {user?.email}</p>
+          <form
+            action={async () => {
+              "use server";
+              await signOut({ redirectTo: "/" });
+            }}
+          >
+            <button className="flex items-center m-4">
+              <LogOut size={18}/>
+              <p className="ml-1">Logout</p>
+            </button>
+          </form>
+        </div>
+
       </div>
-      <div className="flex flex-grow">
+      <div className="flex h-full">
         <SideNav />
-        <div className="w-fit text-white">{children}</div>
+        <div className="text-white">{children}</div>
       </div>
     </div>
   );

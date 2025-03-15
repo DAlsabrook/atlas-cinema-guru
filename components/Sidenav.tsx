@@ -6,7 +6,7 @@ export default function SideNav() {
   // const user = session?.user;
 
   return (
-    <div className="flex w-44 h-auto flex-col px-3 py-4 bg-green-dark">
+    <div className="flex w-1/9 flex-col px-3 py-4 bg-green-dark">
         <p>Side Nav</p>
         {/* <p>{user?.name}</p> */}
     </div>
