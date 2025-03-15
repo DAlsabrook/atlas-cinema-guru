@@ -23,7 +23,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
               await signOut({ redirectTo: "/" });
             }}
           >
-            <button className="flex items-center m-4">
+            <button className="flex items-center m-4 cursor-pointer">
               <LogOut size={18}/>
               <p className="ml-1">Logout</p>
             </button>
