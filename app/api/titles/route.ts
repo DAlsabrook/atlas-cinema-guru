@@ -19,7 +19,6 @@ export const GET = auth(async (req: NextRequest) => {
   } = req.auth;
 
   const params = req.nextUrl.searchParams;
-    console.log("IN TITLES ROUTE PARAMS>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", params)
   const page = params.get("page") ? Number(params.get("page")) : 1;
   const minYear = params.get("minYear") ? Number(params.get("minYear")) : 0;
   const maxYear = params.get("maxYear")

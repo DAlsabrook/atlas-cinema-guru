@@ -21,7 +21,6 @@ export const GET = auth(async (req: NextRequest) => {
     user: { email }, //@ts-ignore
   } = req.auth;
 
-  const favorites = await fetchFavorites(page, email);
-  console.log('In favorites route: ', favorites)
+  const favorites = await fetchFavorites(email);
   return NextResponse.json({ favorites });
 });

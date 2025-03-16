@@ -65,31 +65,29 @@ export async function fetchTitles(
 /**
  * Get a user's favorites list.
  */
-export async function fetchFavorites(page: number, userEmail: string) {
+export async function fetchFavorites(userEmail: string) {
   try {
-    const { data: watchLaterData, error: watchLaterError } = await db
-      .from('watchlater')
+    // Fetch favorite movie IDs
+    const { data: favoriteIdsData, error: favoriteIdsError } = await db
+      .from('favorites')
       .select('title_id')
       .eq('user_id', userEmail);
 
-    if (watchLaterError) throw watchLaterError;
+    if (favoriteIdsError) throw favoriteIdsError;
 
-    const watchLater = watchLaterData.map((row) => row.title_id);
+    const favoriteIds = favoriteIdsData.map((row) => row.title_id);
 
+    // Fetch movie details for favorite movie IDs
     const { data: titlesData, error: titlesError } = await db
       .from('titles')
-      .select('titles.*')
-      .innerJoin('favorites', 'titles.id', 'favorites.title_id')
-      .eq('favorites.user_id', userEmail)
-      .order('titles.released', { ascending: true })
-      .range((page - 1) * 6, page * 6 - 1);
+      .select('*')
+      .in('id', favoriteIds);
 
     if (titlesError) throw titlesError;
 
     return titlesData.map((row: Title) => ({
       ...row,
       favorited: true,
-      watchLater: watchLater.includes(row.id),
       image: `/images/${row.id}.webp`,
     }));
   } catch (error) {

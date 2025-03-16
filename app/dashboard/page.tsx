@@ -53,7 +53,7 @@ export default function Page() {
   };
 
   return (
-    <div className=''>
+    <div className='flex flex-col justify-center items-center'>
       <Search setQuery={setQuery} setMinYear={setMinYear} setMaxYear={setMaxYear} setGenre={setGenre}/>
       <MoviesList titles={titles}/>
       <div className="flex justify-between mt-4">

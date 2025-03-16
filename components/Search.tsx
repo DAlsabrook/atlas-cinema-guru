@@ -51,7 +51,7 @@ export default function Search({ setQuery, setMinYear, setMaxYear, setGenre }: S
     };
 
     return (
-        <div className="flex justify-between">
+        <div className="flex justify-between w-full  max-w-7xl">
             <div className='m-2 w-1/4'>
                 <div className="m-2">
                     <label className='flex flex-col'>
