@@ -258,16 +258,18 @@ export async function watchLaterExists(title_id: string, userEmail: string): Pro
 export async function fetchGenres(): Promise<string[]> {
   const { data, error } = await db
     .from('titles')
-    .select('genre')
-    .distinct();
+    .select('genre');
 
   if (error) {
     console.error('Error fetching genres:', error);
     throw new Error("Failed to fetch genres.");
   }
+  //supabase has no distinct property, so im going to grossly just remove dups manually by using set()
+  const uniqueGenres = Array.from(new Set(data.map(row => row.genre)));
 
-  return data.map((row: { genre: string }) => row.genre);
+  return uniqueGenres;
 }
+
 
 /**
  * Get a user's activities list.
@@ -276,20 +278,33 @@ export async function fetchActivities(page: number, userEmail: string) {
   try {
     const { data, error } = await db
       .from('activities')
-      .select('activities.id, activities.timestamp, activities.activity, titles.title')
-      .innerJoin('titles', 'activities.title_id', 'titles.id')
-      .eq('activities.user_id', userEmail)
-      .order('activities.timestamp', { ascending: false })
+      .select(`
+        id,
+        timestamp,
+        activity,
+        titles ( title )
+      `)
+      .eq('user_id', userEmail)
+      .order('timestamp', { ascending: false })
       .range((page - 1) * 10, page * 10 - 1);
 
     if (error) throw error;
 
-    return data;
+    const flattenedData = data.map(activity => ({
+      id: activity.id,
+      timestamp: activity.timestamp,
+      activity: activity.activity,
+      title: activity.titles[0]?.title ?? 'Unknown'
+    }));
+
+    return flattenedData;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch activities.");
   }
 }
+
+
 
 async function insertActivity(
   title_id: string,

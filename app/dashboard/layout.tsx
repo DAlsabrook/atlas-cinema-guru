@@ -7,7 +7,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   const user = session?.user;
 
   return (
-    <div className="flex flex-col h-screen text-blue-atlas">
+    <div className="flex flex-col h-screen text-blue-atlas overflow-hidden">
       <div className="flex flex-row bg-green-light h-12 justify-between items-center">
 
         <div className="flex items-center ml-2">
@@ -31,9 +31,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
         </div>
 
       </div>
-      <div className="flex h-full">
+      <div className="flex h-full overflow-hidden">
         <SideNav />
-        <div className="text-white">{children}</div> {/** Wrap this in a context to hold movies, favorites, and watch later lists */}
+        <div className="text-white w-full overflow-y-scroll p-3">{children}</div>
       </div>
     </div>
   );
