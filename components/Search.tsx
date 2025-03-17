@@ -8,7 +8,7 @@ type SearchProps = {
 }
 
 export default function Search({ setQuery, setMinYear, setMaxYear, setGenre }: SearchProps) {
-    const genres = ['drama', 'thriller', 'action', 'horror', 'romance', "sci-fi", "fantasy", "mystery", "western", "adventure"];
+    const genres = ['drama', 'thriller', 'action', 'horror', 'romance', "Sci-Fi", "fantasy", "mystery", "western", "adventure"];
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: currentYear - 1990 + 1 }, (_, i) => (1990 + i).toString());
@@ -105,7 +105,7 @@ export default function Search({ setQuery, setMinYear, setMaxYear, setGenre }: S
                 <div className="flex flex-wrap w-90">
                     {genres.map((genre) => (
                         <button
-                            className={`h-fit m-1 py-1 px-2 text-sm font-light items-center justify-center border border-green-light rounded-4xl ${selectedGenres.includes(genre) ? 'bg-green-light text-blue-atlas' : ''}`}
+                            className={`h-fit m-1 py-1 px-2 cursor-pointer text-sm font-light items-center justify-center border border-green-light rounded-4xl ${selectedGenres.includes(genre) ? 'bg-green-light text-blue-atlas' : ''}`}
                             key={genre}
                             onClick={() => handleGenreClick(genre)}
                         >

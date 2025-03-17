@@ -27,6 +27,8 @@ export type Title = {
   released: number;
   genre: string;
   image?: string;
+  favorited?: Boolean;
+  watchLater?: Boolean;
 };
 
 export type UsersTitle = Title & {

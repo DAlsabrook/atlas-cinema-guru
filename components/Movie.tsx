@@ -1,38 +1,21 @@
 "use client"
 
-import { useState, useEffect } from 'react';
 import { Title } from "@/lib/definitions";
 import { Star, Clock } from "lucide-react";
-import { useUser } from "@/context/UserContext";
+import { useState, useEffect } from "react";
 
-type MovieProps = Title & {
-  isFavorited: boolean;
-};
-
-export default function Movie(props: MovieProps) {
+type movieProps = Title & {
+  page: number
+}
+export default function Movie(props: movieProps) {
   const title = props;
-  const { user } = useUser();
-  const [isFavorited, setIsFavorited] = useState(props.isFavorited);
-  const [isWatchLater, setIsWatchLater] = useState(false);
+  const [isFavorite, setIsFavorite] = useState<Boolean>(title.favorited ?? false)
+  const [isWatchLater, setIsWatchLater] = useState<Boolean>(title.watchLater ?? false)
 
-  // useEffect(() => {
-  //   const checkWatchLaterStatus = async () => {
-  //     if (user?.email) {
-  //       const watchLaterExistsStatus = await fetch(`/api/watch-later/${title.id}`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       }).then(res => res.json()).then(data => data.exists);
-
-  //       setIsWatchLater(watchLaterExistsStatus);
-  //     }
-  //   };
-
-  //   if (user) {
-  //     checkWatchLaterStatus();
-  //   }
-  // }, [user, title.id]);
+  useEffect(() => {
+    setIsFavorite(title.favorited || false)
+    setIsWatchLater(title.watchLater || false )
+  }, [title.watchLater, title.favorited, props.page])
 
   const handleAddFavorite = async () => {
     try {
@@ -42,7 +25,7 @@ export default function Movie(props: MovieProps) {
           'Content-Type': 'application/json',
         },
       });
-      setIsFavorited(true);
+      setIsFavorite(true);
     } catch (error) {
       console.error('Failed to add favorite:', error);
     }
@@ -56,53 +39,53 @@ export default function Movie(props: MovieProps) {
           'Content-Type': 'application/json',
         },
       });
-      setIsFavorited(false);
+      setIsFavorite(false);
     } catch (error) {
       console.error('Failed to remove favorite:', error);
     }
   };
 
-  // const handleAddWatchLater = async () => {
-  //   try {
-  //     await fetch(`/api/watch-later/${title.id}`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-  //     setIsWatchLater(true);
-  //   } catch (error) {
-  //     console.error('Failed to add to watch later:', error);
-  //   }
-  // };
+  const handleAddWatchLater = async () => {
+    try {
+      await fetch(`/api/watch-later/${title.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setIsWatchLater(true);
+    } catch (error) {
+      console.error('Failed to add Watch Later:', error);
+    }
+  };
 
-  // const handleRemoveWatchLater = async () => {
-  //   try {
-  //     await fetch(`/api/watch-later/${title.id}`, {
-  //       method: 'DELETE',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-  //     setIsWatchLater(false);
-  //   } catch (error) {
-  //     console.error('Failed to remove from watch later:', error);
-  //   }
-  // };
+  const handleRemoveWatchLater = async () => {
+    try {
+      await fetch(`/api/watch-later/${title.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setIsWatchLater(false);
+    } catch (error) {
+      console.error('Failed to add Watch Later:', error);
+    }
+  };
 
   return (
     <div className="relative flex flex-col border border-green-light rounded-md overflow-hidden my-2 mx-9 group">
       <img src={title.image} alt={title.title} className="" />
       <div className="flex absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 m-3">
-        {isFavorited ? (
-          <Star className="cursor-pointer" onClick={handleRemoveFavorite} />
+        {isFavorite ? (
+          <Star className="cursor-pointer" fill='white' onClick={handleRemoveFavorite} />
         ) : (
           <Star className="cursor-pointer" onClick={handleAddFavorite} />
         )}
         {isWatchLater ? (
-          <Clock className="ml-2 cursor-pointer"  /> //remove watch later
+          <Clock className="ml-2 cursor-pointer text-blue-atlas" fill="white" onClick={handleRemoveWatchLater} />
         ) : (
-          <Clock className="ml-2 cursor-pointer"  /> //add watch later
+          <Clock className="ml-2 cursor-pointer" onClick={handleAddWatchLater} />
         )}
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-2/5 bg-blue-atlas opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end text-white p-4">

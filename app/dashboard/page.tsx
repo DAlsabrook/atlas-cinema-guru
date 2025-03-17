@@ -43,6 +43,9 @@ export default function Page() {
     fetchTitles();
   }, [query, minYear, maxYear, genre, page]);
 
+  useEffect(() => {
+    console.log(titles)
+  }, [titles])
 
   const handlePrevPage = () => {
     setPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -55,7 +58,7 @@ export default function Page() {
   return (
     <div className='flex flex-col justify-center items-center'>
       <Search setQuery={setQuery} setMinYear={setMinYear} setMaxYear={setMaxYear} setGenre={setGenre}/>
-      <MoviesList titles={titles}/>
+      <MoviesList titles={titles} page={page}/>
       <div className="flex justify-between mt-4">
         <button onClick={handlePrevPage} disabled={page === 1}>
           Prev
