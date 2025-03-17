@@ -6,8 +6,6 @@ import { auth } from "@/auth";
  * GET /api/favorites
  */
 export const GET = auth(async (req: NextRequest) => {
-  const params = req.nextUrl.searchParams;
-  const page = params.get("page") ? Number(params.get("page")) : 1;
 
   //@ts-ignore
   if (!req.auth) {

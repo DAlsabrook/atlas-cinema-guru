@@ -1,31 +1,35 @@
 "use client"
 
+import { useState, useEffect } from "react";
 import { Title } from "@/lib/definitions";
 import { Star, Clock } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useTitles } from "@/context/TitlesContext";
 
-type movieProps = Title & {
-  page: number
-}
-export default function Movie(props: movieProps) {
+type MovieProps = Title & {
+  page: number;
+};
+
+export default function Movie(props: MovieProps) {
   const title = props;
-  const [isFavorite, setIsFavorite] = useState<Boolean>(title.favorited ?? false)
-  const [isWatchLater, setIsWatchLater] = useState<Boolean>(title.watchLater ?? false)
+  const { titles, updateTitle } = useTitles();
+  const [isFavorite, setIsFavorite] = useState<Boolean>(title.favorited ?? false);
+  const [isWatchLater, setIsWatchLater] = useState<Boolean>(title.watchLater ?? false);
 
   useEffect(() => {
-    setIsFavorite(title.favorited || false)
-    setIsWatchLater(title.watchLater || false )
-  }, [title.watchLater, title.favorited, props.page])
+    setIsFavorite(title.favorited || false);
+    setIsWatchLater(title.watchLater || false);
+  }, [title.watchLater, title.favorited, props.page, titles]);
 
   const handleAddFavorite = async () => {
     try {
+      setIsFavorite(true);
       await fetch(`/api/favorites/${title.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      setIsFavorite(true);
+      updateTitle(title.id, { favorited: true });
     } catch (error) {
       console.error('Failed to add favorite:', error);
     }
@@ -33,13 +37,14 @@ export default function Movie(props: movieProps) {
 
   const handleRemoveFavorite = async () => {
     try {
+      setIsFavorite(false);
       await fetch(`/api/favorites/${title.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      setIsFavorite(false);
+      updateTitle(title.id, { favorited: false });
     } catch (error) {
       console.error('Failed to remove favorite:', error);
     }
@@ -47,13 +52,14 @@ export default function Movie(props: movieProps) {
 
   const handleAddWatchLater = async () => {
     try {
+      setIsWatchLater(true);
       await fetch(`/api/watch-later/${title.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      setIsWatchLater(true);
+      updateTitle(title.id, { watchLater: true });
     } catch (error) {
       console.error('Failed to add Watch Later:', error);
     }
@@ -61,15 +67,16 @@ export default function Movie(props: movieProps) {
 
   const handleRemoveWatchLater = async () => {
     try {
+      setIsWatchLater(false);
       await fetch(`/api/watch-later/${title.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      setIsWatchLater(false);
+      updateTitle(title.id, { watchLater: false });
     } catch (error) {
-      console.error('Failed to add Watch Later:', error);
+      console.error('Failed to remove Watch Later:', error);
     }
   };
 

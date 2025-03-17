@@ -1,6 +1,13 @@
 import { createSupabaseClient } from "./db";
 import { Title } from "./definitions";
 
+interface Activity {
+  id: string;
+  timestamp: string;
+  activity: string;
+  title: string;
+}
+
 const db = await createSupabaseClient();
 
 /**
@@ -77,6 +84,16 @@ export async function fetchFavorites(userEmail: string) {
 
     const favoriteIds = favoriteIdsData.map((row) => row.title_id);
 
+    // Fetch watch later movie IDs
+    const { data: watchLaterIdsData, error: watchLaterIdsError } = await db
+      .from('watchlater')
+      .select('title_id')
+      .eq('user_id', userEmail);
+
+    if (watchLaterIdsError) throw watchLaterIdsError;
+
+    const watchLaterIds = watchLaterIdsData.map((row) => row.title_id);
+
     // Fetch movie details for favorite movie IDs
     const { data: titlesData, error: titlesError } = await db
       .from('titles')
@@ -88,6 +105,7 @@ export async function fetchFavorites(userEmail: string) {
     return titlesData.map((row: Title) => ({
       ...row,
       favorited: true,
+      watchLater: watchLaterIds.includes(row.id),
       image: `/images/${row.id}.webp`,
     }));
   } catch (error) {
@@ -158,30 +176,39 @@ export async function favoriteExists(title_id: string, userEmail: string) {
 /**
  * Get a user's watch later list.
  */
-export async function fetchWatchLaters(page: number, userEmail: string) {
+export async function fetchWatchLaters(userEmail: string) {
   try {
-    const { data: favoritesData, error: favoritesError } = await db
+    // Fetch favorite movie IDs
+    const { data: favoriteIdsData, error: favoriteIdsError } = await db
       .from('favorites')
       .select('title_id')
       .eq('user_id', userEmail);
 
-    if (favoritesError) throw favoritesError;
+    if (favoriteIdsError) throw favoriteIdsError;
 
-    const favorites = favoritesData.map((row) => row.title_id);
+    const favoriteIds = favoriteIdsData.map((row) => row.title_id);
 
+    // Fetch watch later movie IDs
+    const { data: watchLaterIdsData, error: watchLaterIdsError } = await db
+      .from('watchlater')
+      .select('title_id')
+      .eq('user_id', userEmail);
+
+    if (watchLaterIdsError) throw watchLaterIdsError;
+
+    const watchLaterIds = watchLaterIdsData.map((row) => row.title_id);
+
+    // Fetch movie details for watch later movie IDs
     const { data: titlesData, error: titlesError } = await db
       .from('titles')
-      .select('titles.*')
-      .innerJoin('watchlater', 'titles.id', 'watchlater.title_id')
-      .eq('watchlater.user_id', userEmail)
-      .order('titles.released', { ascending: true })
-      .range((page - 1) * 6, page * 6 - 1);
+      .select('*')
+      .in('id', watchLaterIds);
 
     if (titlesError) throw titlesError;
 
     return titlesData.map((row: Title) => ({
       ...row,
-      favorited: favorites.includes(row.id),
+      favorited: favoriteIds.includes(row.id),
       watchLater: true,
       image: `/images/${row.id}.webp`,
     }));
@@ -272,27 +299,40 @@ export async function fetchGenres(): Promise<string[]> {
 /**
  * Get a user's activities list.
  */
-export async function fetchActivities(page: number, userEmail: string) {
+export async function fetchActivities(page: number, userEmail: string): Promise<Activity[]> {
   try {
-    const { data, error } = await db
+    // Fetch activity data including title_id
+    const { data: activitiesData, error: activitiesError } = await db
       .from('activities')
-      .select(`
-        id,
-        timestamp,
-        activity,
-        titles ( title )
-      `)
+      .select('id, timestamp, activity, title_id')
       .eq('user_id', userEmail)
       .order('timestamp', { ascending: false })
       .range((page - 1) * 10, page * 10 - 1);
 
-    if (error) throw error;
+    if (activitiesError) throw activitiesError;
 
-    const flattenedData = data.map(activity => ({
+    const titleIds = activitiesData.map(activity => activity.title_id);
+
+    // Fetch title details for each title_id
+    const { data: titlesData, error: titlesError } = await db
+      .from('titles')
+      .select('id, title')
+      .in('id', titleIds);
+
+    if (titlesError) throw titlesError;
+
+    // Create a map of title_id to title
+    const titleMap: { [key: string]: string } = titlesData.reduce((acc: { [key: string]: string }, title: { id: string, title: string }) => {
+      acc[title.id] = title.title;
+      return acc;
+    }, {});
+
+    // Combine activity data with title details
+    const flattenedData: Activity[] = activitiesData.map(activity => ({
       id: activity.id,
       timestamp: activity.timestamp,
       activity: activity.activity,
-      title: activity.titles[0]?.title ?? 'Unknown'
+      title: titleMap[activity.title_id] || 'Unknown'
     }));
 
     return flattenedData;

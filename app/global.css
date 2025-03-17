@@ -6,3 +6,14 @@
     --color-blue-atlas: #00003C;
     --color-blue-atlas-light: #000061;
 }
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
