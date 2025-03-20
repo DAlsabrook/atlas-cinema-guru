@@ -13,7 +13,7 @@ export default function Page() {
             await signIn("github", { redirectTo: "/" });
           }}
         >
-          <button className="inline-flex w-4/5 h-12 items-center justify-center rounded-md bg-white px-6 text-sm font-medium text-black border">
+          <button className="inline-flex h-12 items-center justify-center rounded-md bg-white px-6 text-sm font-medium text-black border">
             <span className="mr-2">Sign In with GitHub</span>
             <svg
               role="img"
