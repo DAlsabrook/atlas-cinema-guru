@@ -8,7 +8,7 @@ type SearchProps = {
 }
 
 export default function Search({ setQuery, setMinYear, setMaxYear, setGenre }: SearchProps) {
-    const genres = ['drama', 'thriller', 'action', 'horror', 'romance', "Sci-Fi", "fantasy", "mystery", "western", "adventure"];
+    const genres = ['drama', 'thriller', 'action', 'horror', 'romance', "sci-Fi", "fantasy", "mystery", "western", "adventure"];
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: currentYear - 1990 + 1 }, (_, i) => (1990 + i).toString());

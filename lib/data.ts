@@ -23,8 +23,13 @@ export async function fetchTitles(
 ) {
   try {
     // Capitalize the first letter of each genre
-    const capitalizedGenres = genres.map(genre => genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase());
-
+    const capitalizedGenres = genres.map(genre =>
+      genre
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join('-')
+    );
+    
     // Get favorites title ids
     const { data: favoritesData, error: favoritesError } = await db
       .from('favorites')
