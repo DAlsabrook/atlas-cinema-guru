@@ -67,7 +67,7 @@ export default function SideNav() {
       </Link>
 
       {/* Latest Activities */}
-      <div className="hidden md:group-hover:flex-col text-blue-atlas items-center bg-green-light rounded-2xl p-2 overflow-y-scroll no-scrollbar transition-opacity delay-300">
+      <div className="hidden md:group-hover:flex md:group-hover:flex-col text-blue-atlas items-center bg-green-light rounded-2xl p-2 overflow-y-scroll no-scrollbar transition-opacity delay-300">
         <p className="font-bold">Latest Activities</p>
         {activities.map((activity) => {
           const date = new Date(activity.timestamp);
