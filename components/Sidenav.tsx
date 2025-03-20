@@ -37,21 +37,21 @@ export default function SideNav() {
 
   return (
     <div className="group flex text-green-dark w-16 hover:w-1/6 transition-width duration-100 flex-col px-3 py-4 bg-green-dark">
-      <Link href="/dashboard">
+      <Link href="/">
         <div className="flex items-center mb-3 cursor-pointer">
           <FolderClosed fill="white"/>
           <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-500">Home</p>
         </div>
       </Link>
 
-      <Link href="/dashboard/favorites">
+      <Link href="/favorites">
         <div className="flex items-center mb-3 cursor-pointer">
           <Star fill="white"/>
           <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-300">Favorites</p>
         </div>
       </Link>
 
-      <Link href="/dashboard/watch-later">
+      <Link href="/watch-later">
         <div className="flex items-center mb-3 cursor-pointer">
           <Clock fill="white"/>
           <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-300">Watch Later</p>
