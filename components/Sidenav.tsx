@@ -41,7 +41,7 @@ export default function SideNav() {
       <Link href="/">
         <div className="flex items-center mb-3 cursor-pointer">
           <FolderClosed fill="white" />
-          <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-500">
+          <p className="ml-2 text-sm text-white block md:hidden md:group-hover:block md:transition-opacity md:delay-300">
             Home
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function SideNav() {
       <Link href="/favorites">
         <div className="flex items-center mb-3 cursor-pointer">
           <Star fill="white" />
-          <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-300">
+          <p className="ml-2 text-sm text-white block md:hidden md:group-hover:block md:transition-opacity md:delay-300">
             Favorites
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function SideNav() {
       <Link href="/watch-later">
         <div className="flex items-center mb-3 cursor-pointer">
           <Clock fill="white" />
-          <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-300">
+          <p className="ml-2 text-sm text-white block md:hidden md:group-hover:block md:transition-opacity md:delay-300">
             Watch Later
           </p>
         </div>
