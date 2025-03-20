@@ -36,7 +36,7 @@ export default function SideNav() {
   }, [titles]);
 
   return (
-    <div className="group flex flex-row md:flex-col text-green-dark bg-green-dark px-3 py-4 transition-all duration-300 md:w-16 md:hover:w-1/4">
+    <div className="group flex flex-row justify-around md:justify-start md:flex-col text-green-dark bg-green-dark px-3 py-4 transition-all duration-300 md:w-16 md:hover:w-1/5">
       <Link href="/">
         <div className="flex items-center mb-3 cursor-pointer">
           <FolderClosed fill="white" />
@@ -67,7 +67,7 @@ export default function SideNav() {
       </Link>
 
       {/* Latest Activities */}
-      <div className="hidden md:flex md:group-hover:flex-col text-blue-atlas items-center bg-green-light rounded-2xl p-2 overflow-y-scroll no-scrollbar transition-opacity delay-300">
+      <div className="hidden md:group-hover:flex-col text-blue-atlas items-center bg-green-light rounded-2xl p-2 overflow-y-scroll no-scrollbar transition-opacity delay-300">
         <p className="font-bold">Latest Activities</p>
         {activities.map((activity) => {
           const date = new Date(activity.timestamp);
