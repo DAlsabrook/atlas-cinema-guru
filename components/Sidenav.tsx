@@ -36,8 +36,8 @@ export default function SideNav() {
   }, [titles]);
 
   return (
-    <div className="group flex flex-row md:flex-col text-green-dark w-full md:w-16 bg-green-dark px-3 py-4 transition-width duration-100">
-      {/* Home Link */}
+    <div className="group flex flex-row md:flex-col text-green-dark w-full md:w-16 bg-green-dark px-3 py-4 transition-width duration-100 justify-around md:justify-start">
+      
       <Link href="/">
         <div className="flex items-center mb-3 cursor-pointer">
           <FolderClosed fill="white" />
