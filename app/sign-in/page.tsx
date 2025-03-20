@@ -14,7 +14,7 @@ export default function Page() {
           }}
           className="w-full"
         >
-          <button className="w-full h-12 inline-flex items-center justify-center rounded-md px-6 text-sm font-medium text-black border border-gray-600">
+          <button className="w-full h-12 inline-flex items-center justify-center rounded-md px-6 text-sm font-medium text-black border border-gray-600 cursor-pointer">
             <span className="mr-2">Sign In with GitHub</span>
             <svg
               role="img"

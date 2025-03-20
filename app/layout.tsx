@@ -45,7 +45,7 @@ function AuthenticatedLayout({ children }: Props) {
               <h1 className="ml-1 text-2xl font-bold">Cinema Guru</h1>
             </div>
 
-            <div className="flex items-center">
+            <div className="hidden md:flex items-center">
               <UserInfo />
               <button
                 onClick={() => signOut({ callbackUrl: "/sign-in" })}
@@ -58,7 +58,7 @@ function AuthenticatedLayout({ children }: Props) {
           </div>
 
           {/* Main Content */}
-          <div className="flex h-full overflow-hidden">
+          <div className="flex flex-col md:flex-row h-full overflow-hidden">
             <SideNav />
             <div className="text-white w-full overflow-y-scroll p-3 no-scrollbar">
               {children}
