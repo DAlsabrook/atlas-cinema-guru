@@ -58,3 +58,5 @@ AUTH_SECRET=
 AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
 ```
+https://atlas-cinema-guru-delta.vercel.app/
+https://atlas-cinema-guru-delta.vercel.app/api/auth/callback/github
