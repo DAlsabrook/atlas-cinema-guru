@@ -141,8 +141,8 @@ export default function Movie(props: MovieProps) {
         <h3 className="text-lg font-bold">
           {title.title} ({title.released})
         </h3>
-        <p className="text-sm">{title.synopsis}</p>
-        <p className="text-sm w-fit bg-green-light rounded-2xl py-1 px-2 mt-2">
+        <p className="text-xs">{title.synopsis}</p>
+        <p className="text-sm w-fit bg-green-light rounded-2xl px-2 mt-1">
           {title.genre}
         </p>
       </div>
