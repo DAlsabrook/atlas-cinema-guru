@@ -37,11 +37,10 @@ export default function SideNav() {
 
   return (
     <div className="group flex flex-row md:flex-col text-green-dark w-full md:w-16 bg-green-dark px-3 py-4 transition-width duration-100 justify-around md:justify-start">
-      
       <Link href="/">
-        <div className="flex items-center mb-3 cursor-pointer">
+        <div className="flex items-center mb-3 cursor-pointer group">
           <FolderClosed fill="white" />
-          <p className="ml-2 text-sm text-white block md:hidden md:group-hover:block md:transition-opacity md:delay-300">
+          <p className="ml-2 text-sm text-white hidden md:group-hover:block transition-opacity delay-300">
             Home
           </p>
         </div>
@@ -49,9 +48,9 @@ export default function SideNav() {
 
       {/* Favorites Link */}
       <Link href="/favorites">
-        <div className="flex items-center mb-3 cursor-pointer">
+        <div className="flex items-center mb-3 cursor-pointer group">
           <Star fill="white" />
-          <p className="ml-2 text-sm text-white block md:hidden md:group-hover:block md:transition-opacity md:delay-300">
+          <p className="ml-2 text-sm text-white hidden md:group-hover:block transition-opacity delay-300">
             Favorites
           </p>
         </div>
@@ -59,16 +58,16 @@ export default function SideNav() {
 
       {/* Watch Later Link */}
       <Link href="/watch-later">
-        <div className="flex items-center mb-3 cursor-pointer">
+        <div className="flex items-center mb-3 cursor-pointer group">
           <Clock fill="white" />
-          <p className="ml-2 text-sm text-white block md:hidden md:group-hover:block md:transition-opacity md:delay-300">
+          <p className="ml-2 text-sm text-white hidden md:group-hover:block transition-opacity delay-300">
             Watch Later
           </p>
         </div>
       </Link>
 
       {/* Latest Activities */}
-      <div className="hidden md:group-hover:flex-col text-blue-atlas items-center bg-green-light rounded-2xl p-2 overflow-y-scroll no-scrollbar transition-opacity delay-300">
+      <div className="hidden md:flex md:group-hover:flex-col text-blue-atlas items-center bg-green-light rounded-2xl p-2 overflow-y-scroll no-scrollbar transition-opacity delay-300">
         <p className="font-bold">Latest Activities</p>
         {activities.map((activity) => {
           const date = new Date(activity.timestamp);
