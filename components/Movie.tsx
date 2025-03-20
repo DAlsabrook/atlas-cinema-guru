@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
 import { Title } from "@/lib/definitions";
@@ -14,6 +14,7 @@ export default function Movie(props: MovieProps) {
   const { titles, updateTitle } = useTitles();
   const [isFavorite, setIsFavorite] = useState<Boolean>(title.favorited ?? false);
   const [isWatchLater, setIsWatchLater] = useState<Boolean>(title.watchLater ?? false);
+  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
 
   useEffect(() => {
     setIsFavorite(title.favorited || false);
@@ -24,14 +25,14 @@ export default function Movie(props: MovieProps) {
     try {
       setIsFavorite(true);
       await fetch(`/api/favorites/${title.id}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
       updateTitle(title.id, { favorited: true });
     } catch (error) {
-      console.error('Failed to add favorite:', error);
+      console.error("Failed to add favorite:", error);
     }
   };
 
@@ -39,14 +40,14 @@ export default function Movie(props: MovieProps) {
     try {
       setIsFavorite(false);
       await fetch(`/api/favorites/${title.id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
       updateTitle(title.id, { favorited: false });
     } catch (error) {
-      console.error('Failed to remove favorite:', error);
+      console.error("Failed to remove favorite:", error);
     }
   };
 
@@ -54,14 +55,14 @@ export default function Movie(props: MovieProps) {
     try {
       setIsWatchLater(true);
       await fetch(`/api/watch-later/${title.id}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
       updateTitle(title.id, { watchLater: true });
     } catch (error) {
-      console.error('Failed to add Watch Later:', error);
+      console.error("Failed to add Watch Later:", error);
     }
   };
 
@@ -69,36 +70,81 @@ export default function Movie(props: MovieProps) {
     try {
       setIsWatchLater(false);
       await fetch(`/api/watch-later/${title.id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
       updateTitle(title.id, { watchLater: false });
     } catch (error) {
-      console.error('Failed to remove Watch Later:', error);
+      console.error("Failed to remove Watch Later:", error);
     }
   };
 
+  const toggleDetails = () => {
+    setIsDetailsVisible((prev) => !prev);
+  };
+
   return (
-    <div className="relative flex flex-col border border-green-light rounded-md overflow-hidden my-2 mx-9 group">
+    <div
+      className="relative flex flex-col border border-green-light rounded-md overflow-hidden my-2 mx-9 group"
+      onClick={toggleDetails}
+    >
       <img src={title.image} alt={title.title} className="" />
-      <div className="flex absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 m-3">
+      <div
+        className={`flex absolute top-0 right-0 ${
+          isDetailsVisible ? "opacity-100" : "opacity-0"
+        } group-hover:opacity-100 transition-opacity duration-300 m-3`}
+      >
         {isFavorite ? (
-          <Star className="cursor-pointer" fill='white' onClick={handleRemoveFavorite} />
+          <Star
+            className="cursor-pointer"
+            fill="white"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveFavorite();
+            }}
+          />
         ) : (
-          <Star className="cursor-pointer" onClick={handleAddFavorite} />
+          <Star
+            className="cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddFavorite();
+            }}
+          />
         )}
         {isWatchLater ? (
-          <Clock className="ml-2 cursor-pointer text-blue-atlas" fill="white" onClick={handleRemoveWatchLater} />
+          <Clock
+            className="ml-2 cursor-pointer text-blue-atlas"
+            fill="white"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveWatchLater();
+            }}
+          />
         ) : (
-          <Clock className="ml-2 cursor-pointer" onClick={handleAddWatchLater} />
+          <Clock
+            className="ml-2 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddWatchLater();
+            }}
+          />
         )}
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-2/5 bg-blue-atlas opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end text-white p-4">
-        <h3 className="text-lg font-bold">{title.title} ({title.released})</h3>
+      <div
+        className={`absolute bottom-0 left-0 right-0 h-2/5 bg-blue-atlas ${
+          isDetailsVisible ? "opacity-100" : "opacity-0"
+        } group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end text-white p-4`}
+      >
+        <h3 className="text-lg font-bold">
+          {title.title} ({title.released})
+        </h3>
         <p className="text-sm">{title.synopsis}</p>
-        <p className="text-sm w-fit bg-green-light rounded-2xl py-1 px-2 mt-2">{title.genre}</p>
+        <p className="text-sm w-fit bg-green-light rounded-2xl py-1 px-2 mt-2">
+          {title.genre}
+        </p>
       </div>
     </div>
   );
