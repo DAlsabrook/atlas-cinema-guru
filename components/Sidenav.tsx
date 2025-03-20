@@ -36,29 +36,39 @@ export default function SideNav() {
   }, [titles]);
 
   return (
-    <div className="group flex md:flex-col text-green-dark w-16 hover:w-1/6 transition-width duration-100 px-3 py-4 bg-green-dark">
+    <div className="group flex flex-row md:flex-col text-green-dark w-full md:w-16 bg-green-dark px-3 py-4 transition-width duration-100">
+      {/* Home Link */}
       <Link href="/">
         <div className="flex items-center mb-3 cursor-pointer">
-          <FolderClosed fill="white"/>
-          <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-500">Home</p>
+          <FolderClosed fill="white" />
+          <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-500">
+            Home
+          </p>
         </div>
       </Link>
 
+      {/* Favorites Link */}
       <Link href="/favorites">
         <div className="flex items-center mb-3 cursor-pointer">
-          <Star fill="white"/>
-          <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-300">Favorites</p>
+          <Star fill="white" />
+          <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-300">
+            Favorites
+          </p>
         </div>
       </Link>
 
+      {/* Watch Later Link */}
       <Link href="/watch-later">
         <div className="flex items-center mb-3 cursor-pointer">
-          <Clock fill="white"/>
-          <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-300">Watch Later</p>
+          <Clock fill="white" />
+          <p className="ml-2 text-sm text-white hidden group-hover:block transition-opacity delay-300">
+            Watch Later
+          </p>
         </div>
       </Link>
 
-      <div className="hidden md:flex group-hover:flex-col text-blue-atlas items-center bg-green-light rounded-2xl p-2 overflow-y-scroll no-scrollbar transition-opacity delay-300">
+      {/* Latest Activities */}
+      <div className="hidden md:group-hover:flex-col text-blue-atlas items-center bg-green-light rounded-2xl p-2 overflow-y-scroll no-scrollbar transition-opacity delay-300">
         <p className="font-bold">Latest Activities</p>
         {activities.map((activity) => {
           const date = new Date(activity.timestamp);
@@ -70,9 +80,16 @@ export default function SideNav() {
             minute: '2-digit',
             hour12: true,
           });
-          const activityMessage = activity.activity === "FAVORITED"
-            ? <>Favorited: <strong>{activity.title}</strong></>
-            : <>Added <strong>{activity.title}</strong> to watch later</>;
+          const activityMessage =
+            activity.activity === "FAVORITED" ? (
+              <>
+                Favorited: <strong>{activity.title}</strong>
+              </>
+            ) : (
+              <>
+                Added <strong>{activity.title}</strong> to watch later
+              </>
+            );
           return (
             <p key={activity.id} className="text-sm my-2">
               {formattedDate} {activityMessage}
