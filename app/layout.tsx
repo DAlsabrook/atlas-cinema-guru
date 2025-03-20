@@ -58,10 +58,9 @@ function AuthenticatedLayout({ children }: Props) {
           </div>
 
           {/* Main Content */}
-          <div className="flex flex-col md:flex-row h-full overflow-hidden group">
+          <div className="flex flex-col md:flex-row h-full overflow-hidden">
             <SideNav />
-            {/* Main Content */}
-            <div className="text-white w-full md:group-hover:w-3/4 overflow-y-scroll p-3 no-scrollbar transition-all duration-300">
+            <div className="text-white w-full overflow-y-scroll p-3 no-scrollbar">
               {children}
             </div>
           </div>
