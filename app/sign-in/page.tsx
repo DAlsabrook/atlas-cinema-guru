@@ -5,7 +5,7 @@ export default function Page() {
     <main className="w-screen h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
       <div className="bg-white p-8 w-full max-w-sm rounded-lg shadow-md flex flex-col items-center">
 
-        <img src="/logo.png" alt="Logo" className="w-20 h-20 mb-6" />
+        <img src="/logo.png" alt="Logo" className="w-40 h-auto mb-6" />
 
         <form
           action={async () => {
@@ -13,7 +13,7 @@ export default function Page() {
             await signIn("github", { redirectTo: "/" });
           }}
         >
-          <button className="inline-flex h-12 items-center justify-center rounded-md bg-blue-500 px-6 text-sm font-medium text-white shadow-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <button className="inline-flex h-12 items-center justify-center rounded-md bg-white px-6 text-sm font-medium text-white shadow-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400">
             <span className="mr-2">Sign In with GitHub</span>
             <svg
               role="img"
