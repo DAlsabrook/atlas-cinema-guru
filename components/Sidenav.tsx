@@ -36,12 +36,11 @@ export default function SideNav() {
   }, [titles]);
 
   return (
-    <div className="group flex flex-row md:flex-col text-green-dark bg-green-dark px-3 py-4 transition-all duration-300 md:w-16 md:group-hover:w-1/4">
-      {/* Home Link */}
+    <div className="group flex flex-row md:flex-col text-green-dark w-full md:w-16 bg-green-dark px-3 py-4 transition-width duration-100 justify-around md:justify-start">
       <Link href="/">
-        <div className="flex items-center mb-3 cursor-pointer">
+        <div className="flex items-center mb-3 cursor-pointer group">
           <FolderClosed fill="white" />
-          <p className="ml-2 text-sm text-white hidden md:group-hover:block transition-opacity delay-300">
+          <p className="ml-2 text-sm text-white block md:hidden md:group-hover:block transition-opacity delay-300">
             Home
           </p>
         </div>
@@ -49,9 +48,9 @@ export default function SideNav() {
 
       {/* Favorites Link */}
       <Link href="/favorites">
-        <div className="flex items-center mb-3 cursor-pointer">
+        <div className="flex items-center mb-3 cursor-pointer group">
           <Star fill="white" />
-          <p className="ml-2 text-sm text-white hidden md:group-hover:block transition-opacity delay-300">
+          <p className="ml-2 text-sm text-white block md:hidden md:group-hover:block transition-opacity delay-300">
             Favorites
           </p>
         </div>
@@ -59,9 +58,9 @@ export default function SideNav() {
 
       {/* Watch Later Link */}
       <Link href="/watch-later">
-        <div className="flex items-center mb-3 cursor-pointer">
+        <div className="flex items-center mb-3 cursor-pointer group">
           <Clock fill="white" />
-          <p className="ml-2 text-sm text-white hidden md:group-hover:block transition-opacity delay-300">
+          <p className="ml-2 text-sm text-white block md:hidden md:group-hover:block transition-opacity delay-300">
             Watch Later
           </p>
         </div>
